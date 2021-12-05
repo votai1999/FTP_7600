@@ -11,10 +11,16 @@ class FTP7600 {
   void StartSim();
   void ConfigureFTP(const char *FTPServer, unsigned int PortServer, const char *FTPUserName, const char *FTPPassWord, unsigned int ServerType, const char *TransferType);
   void DownloadFromFTP(const char *FileName);
+  void LogOut();
   void GetDirectory(const char *Path);
   void SelectDirectory(const char *Path);
   void PlayMusic(const char *FileName, unsigned int Repeat);
   void StopMusic();
+  void RequestHttp(String url);
+  int StatePlayer();
+  String ResponseHttp();
+  void GetTime();
+  float getQuality();
   uint8_t sendATcommand(const char *ATcommand, const char *expected_answer, unsigned int timeout);
 };
 

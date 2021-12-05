@@ -1,7 +1,7 @@
 {
     "configuration": "PSRAM=disabled,PartitionScheme=default,CPUFreq=240,FlashMode=qio,FlashFreq=80,FlashSize=4M,UploadSpeed=921600,DebugLevel=none",
     "board": "esp32:esp32:esp32",
-    "sketch": "7600_FTP.ino",
+    "sketch": "main\\main.ino",
     "output": "./build",
-    "port": "COM3"
+    "port": "COM4"
 }

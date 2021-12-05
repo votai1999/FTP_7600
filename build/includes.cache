@@ -1,0 +1,57 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Users\\Taivv\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.6\\cores\\esp32"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Users\\Taivv\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.6\\variants\\esp32"
+  },
+  {
+    "Sourcefile": "e:\\ESP32\\7600_FTP\\build\\sketch\\main.ino.cpp",
+    "Include": "ArduinoJson.h",
+    "Includepath": "C:\\Users\\Taivv\\Documents\\Arduino\\libraries\\ArduinoJson-6.x\\src"
+  },
+  {
+    "Sourcefile": "e:\\ESP32\\7600_FTP\\build\\sketch\\main.ino.cpp",
+    "Include": "DS3231.h",
+    "Includepath": "C:\\Users\\Taivv\\Documents\\Arduino\\libraries\\DS3231"
+  },
+  {
+    "Sourcefile": "e:\\ESP32\\7600_FTP\\build\\sketch\\main.ino.cpp",
+    "Include": "Wire.h",
+    "Includepath": "C:\\Users\\Taivv\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.6\\libraries\\Wire\\src"
+  },
+  {
+    "Sourcefile": "e:\\ESP32\\7600_FTP\\build\\sketch\\main.ino.cpp",
+    "Include": "Preferences.h",
+    "Includepath": "C:\\Users\\Taivv\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.6\\libraries\\Preferences\\src"
+  },
+  {
+    "Sourcefile": "e:\\ESP32\\7600_FTP\\build\\sketch\\main.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "e:\\ESP32\\7600_FTP\\build\\sketch\\src\\FTP_7600.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\Taivv\\Documents\\Arduino\\libraries\\DS3231\\DS3231.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\Taivv\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.6\\libraries\\Wire\\src\\Wire.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\Taivv\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.6\\libraries\\Preferences\\src\\Preferences.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]

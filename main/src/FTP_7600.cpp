@@ -1,7 +1,10 @@
 #include "FTP_7600.h"
 
 #include <HardwareSerial.h>
+
+#include "config.h"
 #define mySerial Serial2
+char response[1000];
 FTP7600::FTP7600() {
 }
 FTP7600::~FTP7600() {
@@ -47,7 +50,7 @@ void FTP7600::ConfigureFTP(const char *FTPServer, unsigned int PortServer, const
 }
 
 void FTP7600::DownloadFromFTP(const char *FileName) {
-  char aux_str[50];
+  char aux_str[100];
   sprintf(aux_str, "AT+CFTPSGETFILE=\"%s\",2", FileName);
   sendATcommand(aux_str, "+CFTPSGETFILE: 0", 500000);
 }
@@ -58,6 +61,11 @@ void FTP7600::GetDirectory(const char *Path) {
   sendATcommand(aux_str, "+CFTPSLIST: DATA,1480", 10000);
 }
 
+void FTP7600::LogOut() {
+  sendATcommand("AT+CFTPSLOGOUT", "+CFTPSLOGOUT: 0", 5000);
+  sendATcommand("AT+CFTPSSTOP", "+CFTPSSTOP: 0", 5000);
+}
+
 void FTP7600::SelectDirectory(const char *Path) {
   char aux_str[50];
   sprintf(aux_str, "AT+FSCD=%s", Path);
@@ -66,18 +74,65 @@ void FTP7600::SelectDirectory(const char *Path) {
 }
 
 void FTP7600::PlayMusic(const char *FileName, unsigned int Repeat) {
-  char aux_str[50];
+  char aux_str[100];
   delay(1000);
   sprintf(aux_str, "AT+CCMXPLAY=\"%s\",0,%d", FileName, Repeat);
-  sendATcommand(aux_str, "OK", 10000);
+  sendATcommand(aux_str, "+AUDIOSTATE: audio play stop", 10000);
 }
 
 void FTP7600::StopMusic() {
   sendATcommand("AT+CCMXSTOP", "OK", 5000);
 }
 
+void FTP7600::RequestHttp(String url) {
+  Serial.print("Send request");
+  sendATcommand("AT+HTTPINIT", "OK", 5000);
+  sendATcommand("AT+NETOPEN", "OK", 5000);
+  mySerial.print("AT+HTTPPARA=\"URL\",\"" + url + "\"\r");
+}
+
+String FTP7600::ResponseHttp() {
+  String res;
+  if (sendATcommand("AT+HTTPACTION=0", "+HTTPACTION: 0,200", 5000) == 1) {
+    sendATcommand("AT+HTTPREAD=1000", "+HTTPREAD: 1000", 2000);
+    res = (String)response;
+    res = res.substring(res.indexOf('*') + 1, res.indexOf('#'));
+  } else
+    res = "";
+  sendATcommand("AT+HTTPTERM", "OK", 2000);
+  sendATcommand("AT+NETCLOSE", "OK", 2000);
+  return res;
+}
+
+float FTP7600::getQuality() {
+  sendATcommand("AT+CSQ", "OK", 2000);
+  String quality = (String)response;
+  quality = (String)response;
+  quality.remove(0, quality.indexOf(":", 0) + 1);
+  quality = quality.substring(1, quality.length() - 2);
+  quality.replace(",", ".");
+  return (quality.toFloat() > 31) ? 31 : quality.toFloat();
+}
+
+void FTP7600::GetTime() {
+  sendATcommand("AT+CNTPCID=1", "OK", 2000);
+  sendATcommand("AT+CNTP=\"pool.ntp.org\",28", "OK", 2000);
+  sendATcommand("AT+CNTP", "+CNTP:0", 2000);
+  sendATcommand("AT+CCLK?", "OK", 2000);
+  year = (response[10] - 48) * 10 + (response[11] - 48);
+  month = (response[13] - 48) * 10 + (response[14] - 48);
+  date = (response[16] - 48) * 10 + (response[17] - 48);
+  hour = (response[19] - 48) * 10 + (response[20] - 48);
+  minute = (response[22] - 48) * 10 + (response[23] - 48);
+  second = (response[25] - 48) * 10 + (response[26] - 48);
+}
+
+int FTP7600::StatePlayer() {
+  sendATcommand("AT+CCMXPLAY?", "OK", 2000);
+  return String(response).substring(String(response).indexOf(":") + 1).toInt();
+}
+
 uint8_t FTP7600::sendATcommand(const char *ATcommand, const char *expected_answer, unsigned int timeout) {
-  char response[1000];
   uint8_t x = 0, answer = 0;
   unsigned long previous;
   memset(response, '\0', 1000);
